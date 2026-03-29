@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Be honest with me</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+<!-- الشاشة الأولية -->
+<div id="initialScreen" class="initial-screen">
+  <div class="initial-card">
+    <div class="initial-icon">💪</div>
+    <div class="initial-title">I love you</div>
+    <div class="initial-subtitle">ثقتك بنفسك تبدأ من هنا</div>
+    <button class="select-initial-btn" id="initialSelectBtn">📱 اختر صورك</button>
+    <div class="initial-note">✨ اختر صورك أولاً .. وابدأ رحلة القوة الداخلية ✨</div>
+  </div>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div id="mainContent" class="main-content">
+  <div class="main-wrapper">
+    <header class="hero-section">
+      <div class="hero-content">
+        <h1 class="glow-text">💪I love you 💪</h1>
+        <p class="subtitle">صارحني </p>
+      </div>
+    </header>
+
+    <div class="container">
+      
+      <!-- عارض الصور -->
+      <div class="slideshow-container">
+        <div class="slideshow-frame" id="slideshowFrame"></div>
+      </div>
+
+      <div id="counterBadge" class="image-counter-badge"></div>
+
+      <!-- أزرار التحكم -->
+      <div class="slideshow-controls">
+        <button class="control-btn" id="prevSlideBtn">❮</button>
+        <button class="control-btn play-pause-btn" id="playPauseBtn">▶ تشغيل</button>
+        <button class="control-btn" id="nextSlideBtn">❯</button>
+      </div>
+
+      <!-- تأثيرات الحركة -->
+      <div class="effect-selector">
+        <button class="effect-btn active" data-effect="zoom">🔍 تكبير</button>
+        <button class="effect-btn" data-effect="slide-left">⬅️ انزلاق</button>
+        <button class="effect-btn" data-effect="slide-right">➡️ انزلاق</button>
+        <button class="effect-btn" data-effect="rotate">🔄 دوران</button>
+        <button class="effect-btn" data-effect="blur">✨ ضبابي</button>
+      </div>
+
+      <!-- قسم السوشيال ميديا -->
+      <div class="social-section">
+        <div class="social-title">
+          <span>🔗</span>
+          <span>تابعني</span>
+          <span>🔗</span>
+        </div>
+        
+        <div class="social-icons">
+          <a href="https://wa.me/201114401651" target="_blank" class="social-icon whatsapp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=100065113174196" target="_blank" class="social-icon facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/mustafaaymanborayk?igsh=MW1zaWFubnI1amczaA==" target="_blank" class="social-icon instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://twitter.com/username" target="_blank" class="social-icon twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.tiktok.com/@bloevolt" target="_blank" class="social-icon tiktok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="https://t.me/killattakcs" target="_blank" class="social-icon telegram">
+            <i class="fab fa-telegram-plane"></i>
+          </a>
+          <a href="https://youtube.com/@momou15999?si=4XIEx_egXfdP7duX" target="_blank" class="social-icon youtube">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://www.snapchat.com/add/username" target="_blank" class="social-icon snapchat">
+            <i class="fab fa-snapchat-ghost"></i>
+          </a>
+        </div>
+        
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> البريد الإلكتروني: mustafaymanborayk@gmail.com</p>
+          <p><i class="fas fa-phone-alt"></i> للتواصل: +20 1114401651</p>
+          <p style="font-size: 0.85rem; margin-top: 10px;">💪 تواصل معي .. القوة في الوحدة 💪</p>
+        </div>
+      </div>
+
+      <!-- قسم التليجرام -->
+      <div class="telegram-section">
+        <div class="telegram-title">
+          <span>📨</span>
+          <span>أرسل رسالتك </span>
+          <span>💌</span>
+        </div>
+        
+        <div class="form-group">
+          <label>👤 الاسم المستعار</label>
+          <input type="text" id="userName" placeholder="مثال: رجل قوي, قلب ثابت ..." maxlength="50">
+        </div>
+        
+        <div class="form-group">
+          <label>💌 رسالتك</label>
+          <textarea id="userMessage" placeholder="اكتب رسالتك بثقة وقوة..."></textarea>
+        </div>
+        <!-- 
+        <div class="form-group">
+          <label>🖼️ الصورة المرسلة</label>
+          <div style="background: #0f1a24; padding: 12px; border-radius: 12px; font-size: 0.9rem; color: #4a9eff;">
+            سيتم إرسال <strong>الصورة التي تشاهدها حالياً</strong> مع رسالتك
+          </div> -->
+        </div>
+        
+        <button class="telegram-btn" id="sendTelegramBtn">
+          <span>✈️</span> إرسال
+        </button>
+        
+        <div class="status-message" id="statusMsg"></div>
+      </div>
+
+      <footer class="love-footer">
+        <p>💪 أنت أقوى مما تتصور .. ثق بنفسك وابدأ الرحلة 💪</p>
+        <div class="footer-hearts">⚡ 💪 ⚡</div>
+        <p style="margin-top: 15px; font-size: 0.8rem;">© 2026 I love you - قوة وثقة</p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- رفع ملفات JavaScript -->
+<script src="scripts/telegram-config.js"></script>
+<script src="scripts/script.js"></script>
+
+</body>
+</html>
