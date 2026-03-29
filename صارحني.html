@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>صارحني</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Tajawal', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      color: #e0e0e0;
+      direction: rtl;
+      overflow-x: hidden;
+    }
+
+    .main-content {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .main-content.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .main-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 25px;
+    }
+
+    /* الشاشة الأولية - تصميم رجالي */
+    .initial-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+      transition: all 0.5s ease;
+    }
+
+    .initial-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .initial-card {
+      text-align: center;
+      background: rgba(15, 25, 45, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      max-width: 500px;
+      margin: 20px;
+      border: 1px solid rgba(100, 150, 200, 0.3);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .initial-icon {
+      font-size: 5rem;
+      margin-bottom: 20px;
+    }
+
+    .initial-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4a9eff, #00d4ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .initial-subtitle {
+      font-size: 1.2rem;
+      color: #aac8e0;
+      margin-bottom: 30px;
+    }
+
+    .select-initial-btn {
+      background: linear-gradient(135deg, #2c5f8a, #1a3a5c);
+      border: none;
+      padding: 18px 45px;
+      border-radius: 50px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .select-initial-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #3a7ab0, #2a4a70);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+    }
+
+    .initial-note {
+      margin-top: 25px;
+      font-size: 0.85rem;
+      color: #6a8eae;
+    }
+
+    /* باقي التصميم الرجالي */
+    .hero-section {
+      text-align: center;
+      padding: 35px 20px 25px;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #1e2a3a, #0f1a24);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(74, 158, 255, 0.2);
+    }
+
+    .glow-text {
+      font-size: 3.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4a9eff, #00d4ff, #2c5f8a);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 3s ease infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #aac8e0;
+      background: rgba(30, 42, 58, 0.8);
+      display: inline-block;
+      padding: 6px 24px;
+      border-radius: 50px;
+    }
+
+    .container {
+      background: rgba(15, 25, 45, 0.7);
+      border-radius: 20px;
+      padding: 30px 25px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(74, 158, 255, 0.15);
+    }
+
+    .slideshow-container {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
+      background: #000;
+    }
+
+    .slideshow-frame {
+      position: relative;
+      width: 100%;
+      padding-bottom: 75%;
+      overflow: hidden;
+    }
+
+    .slide-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out, transform 0.5s ease-out;
+    }
+
+    .slide-image.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .slide-image.effect-zoom { transform: scale(1); }
+    .slide-image.active.effect-zoom { transform: scale(1.05); }
+    .slide-image.effect-slide-left { transform: translateX(-100%); }
+    .slide-image.active.effect-slide-left { transform: translateX(0); }
+    .slide-image.effect-slide-right { transform: translateX(100%); }
+    .slide-image.active.effect-slide-right { transform: translateX(0); }
+    .slide-image.effect-rotate { transform: rotate(-10deg) scale(0.9); }
+    .slide-image.active.effect-rotate { transform: rotate(0) scale(1); }
+    .slide-image.effect-blur { filter: blur(20px); }
+    .slide-image.active.effect-blur { filter: blur(0); }
+
+    .slideshow-controls {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .control-btn {
+      background: #2c3e50;
+      border: 1px solid #4a9eff;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      color: #4a9eff;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .control-btn:hover { 
+      transform: scale(1.1); 
+      background: #4a9eff;
+      color: white;
+      border-color: white;
+    }
+
+    .play-pause-btn {
+      background: #4a9eff;
+      color: white;
+      width: auto;
+      padding: 0 25px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .image-counter-badge {
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #4a9eff;
+      margin: 10px 0;
+    }
+
+    .effect-selector {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .effect-btn {
+      background: #1e2a3a;
+      border: 1px solid #4a9eff;
+      color: #aac8e0;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-family: 'Tajawal', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .effect-btn.active {
+      background: #4a9eff;
+      color: white;
+      border-color: white;
+    }
+
+    .effect-btn:hover {
+      background: #3a7ab0;
+      color: white;
+    }
+
+    /* قسم السوشيال ميديا - رجالي */
+    .social-section {
+      margin: 40px 0 35px;
+      background: linear-gradient(135deg, #1e2a3a, #0f1a24);
+      border-radius: 20px;
+      padding: 30px 25px;
+      text-align: center;
+      border: 1px solid rgba(74, 158, 255, 0.2);
+    }
+
+    .social-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4a9eff;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .social-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      transition: all 0.3s;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .social-icon:hover {
+      transform: translateY(-8px) scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    .social-icon.whatsapp { background: #075e54; }
+    .social-icon.facebook { background: #1877F2; }
+    .social-icon.instagram { background: radial-gradient(circle at 30% 110%, #fca45a, #fd1d1d, #833ab4); }
+    .social-icon.twitter { background: #1DA1F2; }
+    .social-icon.tiktok { background: #000000; }
+    .social-icon.telegram { background: #0088cc; }
+    .social-icon.youtube { background: #FF0000; }
+    .social-icon.snapchat { background: #FFFC00; color: #000; }
+
+    .contact-info {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(74, 158, 255, 0.3);
+    }
+
+    .contact-info p {
+      font-size: 1rem;
+      color: #aac8e0;
+      margin: 8px 0;
+    }
+
+    .contact-info i {
+      margin-left: 8px;
+      color: #4a9eff;
+    }
+
+    /* قسم التليجرام - رجالي */
+    .telegram-section {
+      margin: 40px 0 35px;
+      background: linear-gradient(135deg, #1e2a3a, #0f1a24);
+      border-radius: 20px;
+      padding: 30px 25px;
+      border: 1px solid rgba(74, 158, 255, 0.2);
+    }
+
+    .telegram-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #4a9eff;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #aac8e0;
+      font-weight: 500;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid #2c3e50;
+      background: #0f1a24;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1rem;
+      color: #e0e0e0;
+      transition: all 0.2s;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #4a9eff;
+      box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+    }
+
+    .form-group textarea {
+      border-radius: 12px;
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .telegram-btn {
+      background: linear-gradient(135deg, #2c5f8a, #1a3a5c);
+      border: 1px solid #4a9eff;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .telegram-btn:hover {
+      background: linear-gradient(135deg, #3a7ab0, #2a4a70);
+      transform: translateY(-2px);
+    }
+
+    .status-message {
+      margin-top: 18px;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      display: none;
+    }
+
+    .status-message.success {
+      background: #0d4a2e;
+      color: #00ff88;
+      border: 1px solid #00ff88;
+      display: block;
+    }
+
+    .status-message.error {
+      background: #4a1a1a;
+      color: #ff6b6b;
+      border: 1px solid #ff6b6b;
+      display: block;
+    }
+
+    .love-footer {
+      text-align: center;
+      margin-top: 35px;
+      padding: 20px;
+      background: #0f1a24;
+      border-radius: 20px;
+      border: 1px solid rgba(74, 158, 255, 0.2);
+    }
+
+    .love-footer p {
+      color: #aac8e0;
+    }
+
+    .footer-hearts {
+      font-size: 1.5rem;
+      letter-spacing: 8px;
+      margin-top: 10px;
+      color: #4a9eff;
+    }
+
+    .sending-indicator {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid white;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 650px) {
+      .glow-text { font-size: 2.5rem; }
+      .initial-title { font-size: 1.8rem; }
+      .initial-card { padding: 35px 25px; }
+      .social-icon { width: 55px; height: 55px; font-size: 1.5rem; }
+      .social-title { font-size: 1.4rem; }
+    }
+
+    /* تخصيص سكرول بار */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #4a9eff;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2c5f8a;
+    }
+  </style>
+</head>
+<body>
+
+<!-- الشاشة الأولية -->
+<div id="initialScreen" class="initial-screen">
+  <div class="initial-card">
+    <div class="initial-icon">💪</div>
+    <div class="initial-title">I Love you</div>
+    <div class="initial-subtitle">ثقتك بنفسك تبدأ من هنا</div>
+    <button class="select-initial-btn" id="initialSelectBtn">📱 اختر صورك</button>
+    <div class="initial-note">✨ اختر صورك أولاً .. وابدأ رحلة القوة الداخلية ✨</div>
+  </div>
+</div>
+
+<!-- المحتوى الرئيسي -->
+<div id="mainContent" class="main-content">
+  <div class="main-wrapper">
+    <header class="hero-section">
+      <div class="hero-content">
+        <h1 class="glow-text">💪 I Love you 💪</h1>
+        <p class="subtitle">أنت قوي .. أنت واثق .. أنت ستحق</p>
+      </div>
+    </header>
+
+    <div class="container">
+      
+      <div class="slideshow-container">
+        <div class="slideshow-frame" id="slideshowFrame"></div>
+      </div>
+
+      <div id="counterBadge" class="image-counter-badge"></div>
+
+      <div class="slideshow-controls">
+        <button class="control-btn" id="prevSlideBtn">❮</button>
+        <button class="control-btn play-pause-btn" id="playPauseBtn">▶ تشغيل</button>
+        <button class="control-btn" id="nextSlideBtn">❯</button>
+      </div>
+
+      <div class="effect-selector">
+        <button class="effect-btn active" data-effect="zoom">🔍 تكبير</button>
+        <button class="effect-btn" data-effect="slide-left">⬅️ انزلاق</button>
+        <button class="effect-btn" data-effect="slide-right">➡️ انزلاق</button>
+        <button class="effect-btn" data-effect="rotate">🔄 دوران</button>
+        <button class="effect-btn" data-effect="blur">✨ ضبابي</button>
+      </div>
+
+      <!-- قسم السوشيال ميديا -->
+      <div class="social-section">
+        <div class="social-title">
+          <span>🔗</span>
+          <span>تابعني</span>
+          <span>🔗</span>
+        </div>
+        
+        <div class="social-icons">
+          <a href="https://wa.me/201234567890" target="_blank" class="social-icon whatsapp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://www.facebook.com/username" target="_blank" class="social-icon facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/username" target="_blank" class="social-icon instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://twitter.com/username" target="_blank" class="social-icon twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://www.tiktok.com/@username" target="_blank" class="social-icon tiktok">
+            <i class="fab fa-tiktok"></i>
+          </a>
+          <a href="https://t.me/username" target="_blank" class="social-icon telegram">
+            <i class="fab fa-telegram-plane"></i>
+          </a>
+          <a href="https://www.youtube.com/@username" target="_blank" class="social-icon youtube">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://www.snapchat.com/add/username" target="_blank" class="social-icon snapchat">
+            <i class="fab fa-snapchat-ghost"></i>
+          </a>
+        </div>
+        
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> البريد الإلكتروني: example@email.com</p>
+          <p><i class="fas fa-phone-alt"></i> للتواصل: +20 123 456 7890</p>
+          <p style="font-size: 0.85rem; margin-top: 10px;">💪 تواصل معي .. القوة في الوحدة 💪</p>
+        </div>
+      </div>
+
+      <!-- قسم التليجرام -->
+      <div class="telegram-section">
+        <div class="telegram-title">
+          <span>📨</span>
+          <span>أرسل رسالتك</span>
+          <span>🖼️</span>
+        </div>
+        
+        <div class="form-group">
+          <label>👤 الاسم المستعار</label>
+          <input type="text" id="userName" placeholder="مثال: رجل قوي, قلب ثابت ..." maxlength="50">
+        </div>
+        
+        <div class="form-group">
+          <label>💌 رسالتك</label>
+          <textarea id="userMessage" placeholder="اكتب رسالتك بثقة وقوة..."></textarea>
+        </div>
+        
+        <!--    <div class="form-group">
+          <label>🖼️ الصورة المرسلة</label>
+          <div style="background: #0f1a24; padding: 12px; border-radius: 12px; font-size: 0.9rem; color: #4a9eff;">
+            سيتم إرسال <strong>الصورة التي تشاهدها حالياً</strong> مع رسالتك
+          </div> -->
+        </div>
+        
+        <button class="telegram-btn" id="sendTelegramBtn">
+          <span>✈️</span> إرسال
+        </button>
+        
+        <div class="status-message" id="statusMsg"></div>
+      </div>
+
+      <footer class="love-footer">
+        <p>💪 أنت أقوى مما تتصور .. ثق بنفسك وابدأ الرحلة 💪</p>
+        <div class="footer-hearts">⚡ 💪 ⚡</div>
+        <p style="margin-top: 15px; font-size: 0.8rem;">© 2024 Love Me - قوة وثقة</p>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ========== متغيرات الصور ==========
+  let userImages = [];
+  let currentIndex = 0;
+  let slideshowInterval = null;
+  let isPlaying = false;
+  let currentEffect = "zoom";
+  
+  // عناصر DOM
+  const initialScreen = document.getElementById('initialScreen');
+  const mainContent = document.getElementById('mainContent');
+  const slideshowFrame = document.getElementById('slideshowFrame');
+  const counterBadge = document.getElementById('counterBadge');
+  const prevBtn = document.getElementById('prevSlideBtn');
+  const nextBtn = document.getElementById('nextSlideBtn');
+  const playPauseBtn = document.getElementById('playPauseBtn');
+  const initialSelectBtn = document.getElementById('initialSelectBtn');
+  
+  function showMainContent() {
+    initialScreen.classList.add('hide');
+    mainContent.classList.add('show');
+    setTimeout(() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }, 100);
+  }
+  
+  function updateSlide() {
+    if (userImages.length === 0) return;
+    
+    const currentImg = document.querySelector('.slide-image');
+    if (currentImg) currentImg.classList.remove('active');
+    
+    const newImg = document.createElement('img');
+    newImg.className = `slide-image active effect-${currentEffect}`;
+    newImg.src = userImages[currentIndex];
+    newImg.alt = `صورة ${currentIndex + 1}`;
+    
+    slideshowFrame.innerHTML = '';
+    slideshowFrame.appendChild(newImg);
+    counterBadge.textContent = `${currentIndex + 1} / ${userImages.length} صورة`;
+  }
+  
+  function changeEffect(effect) {
+    currentEffect = effect;
+    if (userImages.length > 0) {
+      const imgElement = document.querySelector('.slide-image');
+      if (imgElement) {
+        const effectClasses = ['effect-zoom', 'effect-slide-left', 'effect-slide-right', 'effect-rotate', 'effect-blur'];
+        effectClasses.forEach(ec => imgElement.classList.remove(ec));
+        imgElement.classList.add(`effect-${effect}`);
+      }
+    }
+  }
+  
+  function nextSlide() {
+    if (userImages.length === 0) return;
+    currentIndex = (currentIndex + 1) % userImages.length;
+    updateSlide();
+  }
+  
+  function prevSlide() {
+    if (userImages.length === 0) return;
+    currentIndex = (currentIndex - 1 + userImages.length) % userImages.length;
+    updateSlide();
+  }
+  
+  function startSlideshow() {
+    if (slideshowInterval) clearInterval(slideshowInterval);
+    if (userImages.length > 1) {
+      slideshowInterval = setInterval(() => { nextSlide(); }, 3000);
+      isPlaying = true;
+      playPauseBtn.innerHTML = "⏸ إيقاف";
+    }
+  }
+  
+  function stopSlideshow() {
+    if (slideshowInterval) { clearInterval(slideshowInterval); slideshowInterval = null; }
+    isPlaying = false;
+    playPauseBtn.innerHTML = "▶ تشغيل";
+  }
+  
+  function togglePlayPause() {
+    if (userImages.length <= 1) return;
+    if (isPlaying) stopSlideshow();
+    else startSlideshow();
+  }
+  
+  function selectImagesFromGallery() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+    
+    input.onchange = (event) => {
+      const files = Array.from(event.target.files);
+      if (files.length === 0) return;
+      
+      const imageUrls = [];
+      let loadedCount = 0;
+      
+      files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imageUrls.push(e.target.result);
+          loadedCount++;
+          if (loadedCount === files.length) {
+            userImages = imageUrls;
+            currentIndex = 0;
+            stopSlideshow();
+            showMainContent();
+            updateSlide();
+            if (userImages.length > 1) startSlideshow();
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+    input.click();
+  }
+  
+  // ========== إرسال الصورة مع الرسالة ==========
+  const BOT_TOKEN = "7144923299:AAGkfmyBOIQH1l4t_z3iJqL67T5f7ncj1Fw";
+  const CHAT_ID = "1665673920";
+  
+  const sendTelegramBtn = document.getElementById('sendTelegramBtn');
+  const userName = document.getElementById('userName');
+  const userMessage = document.getElementById('userMessage');
+  const statusMsg = document.getElementById('statusMsg');
+  
+  function base64ToBlob(base64, mimeType) {
+    const byteCharacters = atob(base64.split(',')[1]);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
+  }
+  
+  async function sendToTelegramWithImage(name, message, imageBase64) {
+    if (!BOT_TOKEN || BOT_TOKEN === "YOUR_BOT_TOKEN_HERE") {
+      simulateTelegramSend(name, message);
+      return { success: true, simulated: true };
+    }
+    
+    try {
+      const mimeType = imageBase64.match(/data:(image\/\w+);/)[1];
+      const imageBlob = base64ToBlob(imageBase64, mimeType);
+      
+      const formData = new FormData();
+      formData.append('chat_id', CHAT_ID);
+      formData.append('caption', `💪 *رسالة من Love Me* 💪\n\n👤 *الاسم المستعار:* ${name}\n💌 *الرسالة:*\n${message}\n\n✨ _ثقة وقوة_ ✨`);
+      formData.append('parse_mode', 'Markdown');
+      formData.append('photo', imageBlob, 'love_image.jpg');
+      
+      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`;
+      const response = await fetch(url, { method: 'POST', body: formData });
+      const data = await response.json();
+      
+      if (data.ok) return { success: true };
+      else return await sendTextOnly(name, message);
+    } catch (error) {
+      return await sendTextOnly(name, message);
+    }
+  }
+  
+  async function sendTextOnly(name, message) {
+    const text = `💪 *رسالة من Love Me* 💪\n\n👤 *الاسم المستعار:* ${name}\n💌 *الرسالة:*\n${message}`;
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: text, parse_mode: 'Markdown' })
+      });
+      const data = await response.json();
+      return data.ok ? { success: true } : { success: false, error: data.description };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  }
+  
+  function simulateTelegramSend(name, message) {
+    statusMsg.className = "status-message success";
+    statusMsg.textContent = "✅ [تجريبي] تم إرسال رسالتك مع الصورة! (أضف توكن البوت للإرسال الحقيقي)";
+    setTimeout(() => { statusMsg.style.display = 'none'; }, 4000);
+  }
+  
+  sendTelegramBtn.addEventListener('click', async () => {
+    const name = userName.value.trim();
+    const message = userMessage.value.trim();
+    
+    if (!name || !message) {
+      statusMsg.className = "status-message error";
+      statusMsg.textContent = "❌ الرجاء إدخال الاسم المستعار والرسالة";
+      statusMsg.style.display = 'block';
+      setTimeout(() => { statusMsg.style.display = 'none'; }, 3000);
+      return;
+    }
+    
+    if (userImages.length === 0) {
+      statusMsg.className = "status-message error";
+      statusMsg.textContent = "❌ لا توجد صور! الرجاء اختيار صور أولاً";
+      statusMsg.style.display = 'block';
+      setTimeout(() => { statusMsg.style.display = 'none'; }, 3000);
+      return;
+    }
+    
+    sendTelegramBtn.disabled = true;
+    sendTelegramBtn.innerHTML = "<span class='sending-indicator'></span> جاري الإرسال...";
+    
+    const currentImage = userImages[currentIndex];
+    const result = await sendToTelegramWithImage(name, message, currentImage);
+    
+    if (result.success) {
+      statusMsg.className = "status-message success";
+      statusMsg.textContent = "✅ تم إرسال رسالتك مع الصورة بنجاح! 💪";
+      userName.value = "";
+      userMessage.value = "";
+    } else {
+      statusMsg.className = "status-message error";
+      statusMsg.textContent = `❌ فشل الإرسال: ${result.error || "حدث خطأ"}`;
+    }
+    
+    statusMsg.style.display = 'block';
+    setTimeout(() => { statusMsg.style.display = 'none'; }, 5000);
+    
+    sendTelegramBtn.disabled = false;
+    sendTelegramBtn.innerHTML = "<span>✈️</span> إرسال";
+  });
+  
+  // أحداث الأزرار
+  initialSelectBtn.addEventListener('click', selectImagesFromGallery);
+  prevBtn.addEventListener('click', () => { stopSlideshow(); prevSlide(); });
+  nextBtn.addEventListener('click', () => { stopSlideshow(); nextSlide(); });
+  playPauseBtn.addEventListener('click', togglePlayPause);
+  
+  const effectBtns = document.querySelectorAll('.effect-btn');
+  effectBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      effectBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      changeEffect(btn.getAttribute('data-effect'));
+    });
+  });
+</script>
+
+</body>
+</html>
